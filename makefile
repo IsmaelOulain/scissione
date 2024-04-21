@@ -2,7 +2,7 @@
 CC=gcc
 
 # Definisce le opzioni di compilazione
-CFLAGS= -Wvla -Wextra -Werror
+CFLAGS= -Wvla -Wextra -Werror -D_GNU_SOURCE
 
 # Nome degli eseguibili da generare
 MASTER=master
