@@ -1,0 +1,25 @@
+{
+    "files.associations": {
+        "messaggio_atomo.h": "c",
+        "unistd.h": "c",
+        "stdio.h": "c",
+        "shared_array.h": "c",
+        "master.h": "c",
+        "stdlib.h": "c",
+        "signal.h": "c",
+        "time.h": "c",
+        "semaphore.h": "c",
+        "wait.h": "c",
+        "sem.h": "c",
+        "attivatore.h": "c",
+        "semaforo_binario.h": "c",
+        "shm.h": "c",
+        "types.h": "c",
+        "cstdlib": "c",
+        "atomo.h": "c",
+        "statistiche.h": "c",
+        "string.h": "c",
+        "msg.h": "c"
+    },
+    "C_Cpp.errorSquiggles": "disabled"
+}
