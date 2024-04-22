@@ -1,5 +1,5 @@
 #pragma once
-#define MIN_NUM_ATOM 2
+
 void inviaMessaggio(TipoMessaggio tipo);
 void savePid();
 void attendi_comando();

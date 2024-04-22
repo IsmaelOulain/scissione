@@ -19,7 +19,8 @@
         "atomo.h": "c",
         "statistiche.h": "c",
         "string.h": "c",
-        "msg.h": "c"
+        "msg.h": "c",
+        "utils.h": "c"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

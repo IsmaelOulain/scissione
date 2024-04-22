@@ -1,24 +1,8 @@
-#include <stdio.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <sys/shm.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <sys/msg.h>
-#include <string.h>
-#include <errno.h>
-#include <sys/sem.h>
-#include <time.h>
-#include <signal.h>
+#include "utils.h"
 #include "master.h"
 #include "messaggio_atomo.h"
-#include "shared_array.h"
-#include "semaforo_binario.h"
 #include "statistiche.h"
-#define N_ATOMI_INIT 2
-#define N_ATOM_MAX 10 // Massimo valore per il numero atomico
-#define SIM_DURATION 30
-#define ENERGY_DEMAND 2
+
 pid_t pid;
 pid_t pidStats;
 int msgid;
@@ -105,7 +89,7 @@ void handleExplode(int sig){
     termination(0);
 }
 
-    void handleMeltdown(int sig)
+void handleMeltdown(int sig)
 {
     printf("Ricevuto segnale di Meltown. Terminazione di tutti i processi.\n");
     terminationCause = MELTDOWN_EXIT;
@@ -130,7 +114,7 @@ void creaStatistiche()
         perror("shmat fallito");
         exit(1);
     }
-    statisticheSimulazione->energia=10;
+    statisticheSimulazione->energia=ENERGY_INIT;
     // Inizializza i valori a zero
     //memset(statisticheSimulazione, 0, sizeof(StatisticheSimulazione));
 }

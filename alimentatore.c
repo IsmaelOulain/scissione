@@ -1,22 +1,24 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <signal.h>
-#include <time.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <sys/types.h>
-#include <sys/shm.h>
-#include <string.h>
-#include <errno.h>
-#include <sys/wait.h>
-#include <sys/msg.h>
+// #include <stdio.h>
+// #include <stdlib.h>
+// #include <unistd.h>
+// #include <signal.h>
+// #include <time.h>
+// #include <unistd.h>
+// #include <stdlib.h>
+// #include <sys/types.h>
+// #include <sys/shm.h>
+// #include <string.h>
+// #include <errno.h>
+// #include <sys/wait.h>
+// #include <sys/msg.h>
+#include "utils.h"
 #include "messaggio_atomo.h"
 #include "semaforo_binario.h"
 #include "statistiche.h"
-#define N_NUOVI_ATOMI 1       // Numero di nuovi atomi da creare ad ogni step
-#define STEP_ALIMENTAZIONE 10 // Intervallo di tempo tra le creazioni, in secondi
-#define N_ATOM_MAX 3
+#include "alimentatore.h"
+// #define N_NUOVI_ATOMI 0       // Numero di nuovi atomi da creare ad ogni step
+// #define STEP_ALIMENTAZIONE 10 // Intervallo di tempo tra le creazioni, in secondi
+// #define N_ATOM_MAX 3
 
 pid_t pid;
 int shmid;
@@ -24,14 +26,7 @@ int shmidStats;
 int semIdStats;
 int pidMaster;
 StatisticheSimulazione *statisticheSimulazione;
-void alarmHandler(int sig);
-void createAtomo();
-void alimentazione();
-void inviaMessaggio(TipoMessaggio tipo);
-void attendi_start();
-void start(int sig);
-void waiting();
-void saveStats();
+
 int main()
 {
     semIdStats = atoi(getenv("SEMAFORO_STATISTICHE"));
@@ -49,7 +44,6 @@ int main()
 void stepAlimentatore(){
 
     //printf("Avvio simulazione attivatore\n");
-    // Imposta l'handler per SIGALRM
     struct sigaction sa;
     sa.sa_handler = alarmHandler;
     sigemptyset(&sa.sa_mask);
@@ -58,10 +52,9 @@ void stepAlimentatore(){
 
     alarm(STEP_ALIMENTAZIONE); // Inizia il timer per l'alimentazione
 
-    // Loop principale
     while (1)
     {
-        pause(); // Attendi il prossimo segnale (interruzione bloccante)
+        pause();
     }
 }
 

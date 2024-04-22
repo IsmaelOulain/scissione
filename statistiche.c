@@ -1,13 +1,14 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <sys/shm.h>
-#include <time.h>
-#include <unistd.h>
-#include <signal.h>
+// #include <stdio.h>
+// #include <stdlib.h>
+// #include <sys/shm.h>
+// #include <time.h>
+// #include <unistd.h>
+// #include <signal.h>
+#include "utils.h"
 #include "shared_array.h"
 #include "semaforo_binario.h"
 #include "statistiche.h"
-#define ENERGY_EXPLODE_THRESHOLD 50
+
 int main(int argc, char *argv[])
 {
     int energia_demand = atoi(argv[1]);

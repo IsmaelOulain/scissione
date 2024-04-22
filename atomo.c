@@ -1,11 +1,12 @@
-#include <stdio.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <signal.h>
-#include <sys/shm.h>
-#include <sys/sem.h>
-#include <time.h>
-#include <sys/msg.h>
+// #include <stdio.h>
+// #include <unistd.h>
+// #include <stdlib.h>
+// #include <signal.h>
+// #include <sys/shm.h>
+// #include <sys/sem.h>
+// #include <time.h>
+// #include <sys/msg.h>
+#include "utils.h"
 #include "messaggio_atomo.h"
 #include "shared_array.h"
 #include "semaforo_binario.h"

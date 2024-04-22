@@ -1,17 +1,8 @@
-#include <stdio.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <sys/shm.h>
-#include <sys/sem.h>
-#include <sys/msg.h>
-#include <signal.h>
+#include "utils.h"
 #include "shared_array.h"
 #include "attivatore.h"
 #include "semaforo_binario.h"
 #include "statistiche.h"
-
-#define STEP_ATTIVATORE 2
-#define RANDOM_ATOM_SET 3
 int semId;
 int semIdStats;
 int shmidStats;
@@ -24,19 +15,7 @@ int main()
     semIdStats = atoi(getenv("SEMAFORO_STATISTICHE"));
     shmidStats = atoi(getenv("STATS_ID"));
     attendi_start();
-    //printf("Sono attivatore shmid %s\n", getenv("SHMPIDATOMI"));
-    
-    //printf("Sono attivatore \n");
-    // int pid_atomo = get(sharedArray);
-    // kill(pid_atomo, SIGUSR2);
 
-    //sezione critica
-    
-    //printf("%d\\n",semId);
-    //attendi_start();
-    //printf("\n");
-
-    //exit(EXIT_SUCCESS);
 }
 
 void attendi_start()
@@ -47,7 +26,7 @@ void attendi_start()
     sa.sa_handler = stepAttivatore; // Imposta la funzione di gestione del segnale
     sigemptyset(&sa.sa_mask);
     sa.sa_flags = 0;
-    // Configura il gestore per SIGUSR2
+    // Configura il gestore per SIGUSR1
     if (sigaction(SIGUSR1, &sa, NULL) == -1)
     {
         perror("Errore in sigaction");
@@ -74,7 +53,6 @@ void stepAttivatore()
     // Imposta il primo alarm
     alarm(STEP_ATTIVATORE);
 
-    // Ciclo infinito per mantenere in esecuzione il processo attivatore
     while (1)
     {
         pause(); // Mette in pausa il processo in attesa di segnali
