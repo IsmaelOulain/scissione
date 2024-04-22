@@ -32,13 +32,32 @@ Coordinatore della simulazione, crea i processi atomo e gestisce i processi atti
 
 Simula la scissione atomica mediante fork, essenziale per la dinamica della simulazione.
 
+1. Gestione del processo:
+    - Alla sua creazione il processo Atomo recupera le informazioni sulle memorie condivise e i semafori attraverso le variabili di ambiente e successivamente informa
+     tramite la coda di messaggi la sua creazione al processo Master
+    - Successivamente salva il suo pid nella struttura dati e rimane in attesa del segnale di scissione dall’Attivatore sempre utilizzando le Signal.
+    - Alla ricezione del segnale di scissione si attiva l’handler verifica se il numero atomico permette la scissione:
+    - Se lo permette effetua una fork creando un nuovo atomo aumenta le statistiche delle scissioni e dell’energia.
+    - Altrimenti diventa una scoria, elimina il suo pid dal registro ed aumenta le statistiche delle scorie.
+
 ### Processo Attivatore
 
 L'attivatore invia segnali di scissione agli atomi selezionati a intervalli regolari, orchestrando parte della logica di simulazione attraverso segnali e semafori.
 
+1. Gestione del processo:
+   - Alla sua creazione informa il processo Master della sua creazione tramite la coda di messaggi e recupera le informazioni relative alle memorie e semafori tramite le         variabili di ambiente
+   - Rimane in attesa del segnale di “Avvio Simulazione” tramite la Signal(SIGUSR1).
+   - All’avvio della simulazione attiva il timer e ogni STEP_ATTIVATORE invia il segnale (SIGUSR1) di scissione selezionando RANDOM_ATOM_SET atomi dal registro.
+   - Aggiorna le statistiche.
+
 ### Processo Alimentatore
 
 L'alimentatore aggiunge nuovi atomi nella simulazione, simulando l'introduzione di nuovo combustibile. Utilizza timer per gestire la creazione periodica di nuovi processi atomo.
+
+1. Gestione del processo:
+   - Alla sua creazione informa il processo Master della sua creazione tramite la coda di messaggi e recupera le informazioni relative alle memorie e semafori tramite le
+    variabili di ambiente
+   - Ogni STEP_ALIMENTATORE crea N_NUOVI_ATOMI eseguendo una fork con il codice del processo Atomo
 
 ## Guida alla Compilazione ed Esecuzione
 
