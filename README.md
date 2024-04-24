@@ -18,11 +18,11 @@ Questo approccio non solo facilita la manutenzione del codice ma permette anche 
 
 Coordinatore della simulazione, crea i processi atomo e gestisce i processi attivatore e alimentatore:
 
-1. Creazione delle Risorse:
+1. #### Creazione delle Risorse:
    - Code di Messaggi: Una coda di messaggi viene creata per comunicare tra i vari processi, principalmente per confermare la creazione e la terminazione.
    - Memoria Condivisa: Due segmenti di memoria condivisa vengono creati, uno per mantenere gli ID dei processi atomo e uno per le statistiche della simulazione.
    - Semafori: Vengono creati due semafori per gestire l'accesso alle strutture condivise: uno per gli atomi e uno per le statistiche.
-2. Gestione del processo:
+2. #### Gestione del processo:
    - Inizia creando i processi Atomo poi successivamente Attivatore e Alimentatore
    - Ricevuta la conferma di creazione dei processi, inizia a impostare la durata della simulazione e avvisa a tutti i processi di iniziare la simulazione tramite l’uso delle Signal.
    - Avviata la simulazione rimane in ascolto di eventuali segnali di TIMEOUT, EXPLODE, BLACKOUT e MELTDOWN
@@ -32,7 +32,7 @@ Coordinatore della simulazione, crea i processi atomo e gestisce i processi atti
 
 Simula la scissione atomica mediante fork, essenziale per la dinamica della simulazione.
 
-1. Gestione del processo:
+1. #### Gestione del processo:
     - Alla sua creazione il processo Atomo recupera le informazioni sulle memorie condivise e i semafori attraverso le variabili di ambiente e successivamente informa
      tramite la coda di messaggi la sua creazione al processo Master
     - Successivamente salva il suo pid nella struttura dati e rimane in attesa del segnale di scissione dall’Attivatore sempre utilizzando le Signal.
@@ -44,7 +44,7 @@ Simula la scissione atomica mediante fork, essenziale per la dinamica della simu
 
 L'attivatore invia segnali di scissione agli atomi selezionati a intervalli regolari, orchestrando parte della logica di simulazione attraverso segnali e semafori.
 
-1. Gestione del processo:
+1. #### Gestione del processo:
    - Alla sua creazione informa il processo Master della sua creazione tramite la coda di messaggi e recupera le informazioni relative alle memorie e semafori tramite le         variabili di ambiente
    - Rimane in attesa del segnale di “Avvio Simulazione” tramite la Signal(SIGUSR1).
    - All’avvio della simulazione attiva il timer e ogni STEP_ATTIVATORE invia il segnale (SIGUSR1) di scissione selezionando RANDOM_ATOM_SET atomi dal registro.
@@ -54,7 +54,7 @@ L'attivatore invia segnali di scissione agli atomi selezionati a intervalli rego
 
 L'alimentatore aggiunge nuovi atomi nella simulazione, simulando l'introduzione di nuovo combustibile. Utilizza timer per gestire la creazione periodica di nuovi processi atomo.
 
-1. Gestione del processo:
+1. #### Gestione del processo:
    - Alla sua creazione informa il processo Master della sua creazione tramite la coda di messaggi e recupera le informazioni relative alle memorie e semafori tramite le
     variabili di ambiente
    - Ogni STEP_ALIMENTATORE crea N_NUOVI_ATOMI eseguendo una fork con il codice del processo Atomo
